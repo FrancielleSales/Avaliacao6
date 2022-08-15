@@ -68,7 +68,50 @@
 
 # Microsserviço Pagamentos
 
-Recebe o id do pedido e o seu total, por meio de uma fila gerada quando um novo pedido é salvo na API Pedido. Os dados recebidos são salvos em uma tabela no BD, com um código único gerado automaticamente e a data do momento do evento. Foi utilizado o RabbitMQ.
+Recebe o id do pedido e o seu total, por meio de uma fila gerada quando um novo pedido é salvo na API Pedido. Os dados recebidos são salvos em uma tabela no BD, com um código único gerado automaticamente e a data do momento do evento. Foi utilizado o RabbitMQ. Ele se comunica com o PB-Bank.
+
+##
+
+# API Site
+
+##Entidades: 
+
+**Itens: ** id, nome, dataValidade, valor, descricao, estoque, skuid 
+
+**Clientes: **: ID (CPF - não automatico), nome, dataCriacao
+
+**Clientes_Cartoes: ** numero, codigo, mesvalidade, anoValidade, marca
+
+ROTA CHECKOUT: (/api/checkout), eé consumida utilizando um payload como exemplo:
+{
+    "itens": [
+        {
+            "skuId": "rcd1234335",
+            "qtd": 3
+        },
+        {
+            "skuId": "rcd9999999",
+            "qtd": 1
+          }
+    ],
+    "cliente_info": {
+        "clientId": "12345678900",
+        "cartaoId": 1
+    }
+}
+
+Efetua o calculo do total do pedido, verificar estoque, etc, monta as informações e envia a requisição para o serviço de pedidos (/api/pedido) e retorna as informações do pedido, como valor total, número do pedido e status, como exemplo:
+{
+    "numeroDoPedido": 10,
+    "total": 1234.44,
+    "status":"Em processamento",
+    "itens": [
+        {
+            "nome": "ITEM 01",
+            "valor": 22.5
+        }
+    ]
+}
 
 
 
