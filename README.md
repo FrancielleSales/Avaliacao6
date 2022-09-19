@@ -1,4 +1,12 @@
-# API Pedido
+# Market
+
+<p align="center">
+<img src = "https://user-images.githubusercontent.com/100395899/187989530-fbde1326-3370-4cfd-9420-0941f3d1a2cd.png" width="1100px" hight="350px">
+</p>
+
+🚧 **Em construção!** 🚧
+
+# Pedido *(Order)*
 
 ## Entidades:
 
@@ -52,7 +60,7 @@
 
 ## Testes 
 
-- O teste possui cobertura de 70% das regras de negócio.
+- O teste possui cobertura de 70% das regras de negócio (services).
 
 ## *Observações*
 
@@ -66,23 +74,25 @@
 
 ##
 
-# Microsserviço Pagamentos
+# Pagamentos *(Payments)*
 
 Recebe o id do pedido e o seu total, por meio de uma fila gerada quando um novo pedido é salvo na API Pedido. Os dados recebidos são salvos em uma tabela no BD, com um código único gerado automaticamente e a data do momento do evento. Foi utilizado o RabbitMQ. Ele se comunica com o PB-Bank.
 
 ##
 
-# API Site
+# Site
 
-##Entidades: 
+## Entidades: 
 
-**Itens: ** id, nome, dataValidade, valor, descricao, estoque, skuid 
+**Itens:** id, nome, dataValidade, valor, descricao, estoque, skuid 
 
-**Clientes: **: ID (CPF - não automatico), nome, dataCriacao
+**Clientes:**: ID (CPF - não automatico), nome, dataCriacao
 
-**Clientes_Cartoes: ** numero, codigo, mesvalidade, anoValidade, marca
+**Clientes_Cartoes:** numero, codigo, mesvalidade, anoValidade, marca
 
-ROTA CHECKOUT: (/api/checkout), eé consumida utilizando um payload como exemplo:
+**Checkout:** (/api/checkout), é consumida utilizando um payload como exemplo:
+~~~
+
 {
     "itens": [
         {
@@ -99,8 +109,11 @@ ROTA CHECKOUT: (/api/checkout), eé consumida utilizando um payload como exemplo
         "cartaoId": 1
     }
 }
+~~~
 
 Efetua o calculo do total do pedido, verificar estoque, etc, monta as informações e envia a requisição para o serviço de pedidos (/api/pedido) e retorna as informações do pedido, como valor total, número do pedido e status, como exemplo:
+
+~~~
 {
     "numeroDoPedido": 10,
     "total": 1234.44,
@@ -112,6 +125,4 @@ Efetua o calculo do total do pedido, verificar estoque, etc, monta as informaç�
         }
     ]
 }
-
-
-
+~~~
